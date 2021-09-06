@@ -1,53 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 import DayList from "./DayList";
+import { getAppointmentsForDay } from "helpers/selectors";
 
 import "components/Application.scss";
 import 'components/Appointment';
 import Appointment from "components/Appointment";
-
-const appointments = [
-  {
-    id: 2,
-    time: "10am",
-    interview: {
-      student: "Lydia Miller-Jones",
-      interviewer: {
-        id: 1,
-        name: "Sylvia Palmer",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 3,
-    time: "11am",
-    interview: {
-      student: "George Harrison",
-      interviewer: {
-        id: 1,
-        name: "Brian Epstein",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-  {
-    id: 1,
-    time: "2pm",
-  },
-  {
-    id: 4,
-    time: "3pm",
-    interview: {
-      student: "John Lennon",
-      interviewer: {
-        id: 1,
-        name: "George Martin",
-        avatar: "https://i.imgur.com/LpaY82x.png",
-      }
-    }
-  },
-];
 
 export default function Application(props) {
   const [state, setState] = useState({
@@ -56,14 +14,19 @@ export default function Application(props) {
     appointments: {}
   });
 
-  const setDay = day => setState({...state, day});
-  const setDays = days => setState( prev => ({...prev, days}));
+  const dailyAppointments = getAppointmentsForDay(state, state.day);
 
-  const schedule = appointments.map(appointment => <Appointment key={appointment.id} {...appointment}/>);
+  const setDay = day => setState({...state, day});
+
+  const schedule = dailyAppointments.map(appointment => <Appointment key={appointment.id} {...appointment}/>);
 
   useEffect(() => {
-    axios.get('/api/days').then(response => {
-      setDays(response.data);
+    Promise.all([
+      axios.get('/api/days'),
+      axios.get('/api/appointments')
+    ])
+    .then(all => {
+      setState(prev => ({...prev, days: all[0].data, appointments: all[1].data}));
     })
   }, []);
 
