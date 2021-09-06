@@ -18,7 +18,7 @@ export default function Application(props) {
 
   const setDay = day => setState({...state, day});
 
-  const schedule = dailyAppointments.map(appointment => <Appointment key={appointment.id} {...appointment}/>);
+  const appointments = dailyAppointments.map(appointment => <Appointment key={appointment.id} {...appointment}/>);
 
   useEffect(() => {
     Promise.all([
@@ -53,7 +53,7 @@ export default function Application(props) {
         />
       </section>
       <section className="schedule">
-        {schedule}
+        {appointments}
         <Appointment key="last" time="5pm"/>
       </section>
     </main>
