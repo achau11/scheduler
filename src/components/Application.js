@@ -39,8 +39,6 @@ export default function Application(props) {
       [id]: appointment
     };
 
-    setState({...state, appointments});
-
     //Add the state to the API so that data persists
     return axios.put(`/api/appointments/${id}`, {interview}).then(response => {
       setState({...state, appointments});
@@ -59,8 +57,6 @@ export default function Application(props) {
       ...state.appointments,
       [id]: appointment,
     };
-
-    setState({...state, appointments});
 
     return axios.delete(`/api/appointments/${id}`, {}).then(() => {
       setState({...state, appointments});
