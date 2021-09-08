@@ -28,7 +28,7 @@ export default function Application(props) {
 
   //Book interview and pass it as props to appointment components
   function bookInterview(id, interview) {
-    
+
     const appointment = {
       ...state.appointments[id],
       interview: { ...interview }
@@ -40,6 +40,11 @@ export default function Application(props) {
     };
 
     setState({...state, appointments});
+
+    //Add the state to the API so that data persists
+    axios.put(`/api/appointments/${id}`, {interview}).then(response => {
+      setState({...state, appointments});
+    });
   }
 
   const appointments = dailyAppointments.map(appointment => {

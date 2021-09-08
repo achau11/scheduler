@@ -9,7 +9,7 @@ import 'components/Appointment/styles.scss';
 
 
 export default function Appointment(props) {
-  console.log(props);
+  
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -20,12 +20,14 @@ export default function Appointment(props) {
   
   //Save data from bookInterview function in Application
   function save(name, interviewer) {
+    
     const interview = {
       student: name,
       interviewer
     };
-    transition(SHOW);
+
     props.bookInterview(props.id, interview);
+    transition(SHOW);
   }
 
   return (
