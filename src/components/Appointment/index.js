@@ -9,6 +9,7 @@ import 'components/Appointment/styles.scss';
 
 
 export default function Appointment(props) {
+  console.log(props);
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
@@ -16,6 +17,16 @@ export default function Appointment(props) {
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
   );
+  
+  //Save data from bookInterview function in Application
+  function save(name, interviewer) {
+    const interview = {
+      student: name,
+      interviewer
+    };
+    transition(SHOW);
+    props.bookInterview(props.id, interview);
+  }
 
   return (
     <article className="appointment">
@@ -27,7 +38,7 @@ export default function Appointment(props) {
           interviewer={props.interview.interviewer}
         />
       )}  
-      {mode === CREATE && <Form name={props.name} value={props.value} interviewers={[]} onCancel={back}/>}
+      {mode === CREATE && <Form name={props.name} value={props.value} interviewers={props.interviewers} onCancel={back} onSave={save}/>}
     </article>
   );
 } 
