@@ -42,7 +42,7 @@ export default function Application(props) {
     setState({...state, appointments});
 
     //Add the state to the API so that data persists
-    axios.put(`/api/appointments/${id}`, {interview}).then(response => {
+    return axios.put(`/api/appointments/${id}`, {interview}).then(response => {
       setState({...state, appointments});
     });
   }

@@ -2,6 +2,7 @@ import React from 'react';
 import Header from './Header';
 import Show from './Show';
 import Empty from './Empty';
+import Status from "../Appointment/Status";
 import Form from "components/Appointment/Form";
 import useVisualMode from "hooks/useVisualMode";
 
@@ -13,6 +14,7 @@ export default function Appointment(props) {
   const EMPTY = "EMPTY";
   const SHOW = "SHOW";
   const CREATE = "CREATE";
+  const SAVING = "SAVING";
 
   const { mode, transition, back } = useVisualMode(
     props.interview ? SHOW : EMPTY
@@ -20,19 +22,20 @@ export default function Appointment(props) {
   
   //Save data from bookInterview function in Application
   function save(name, interviewer) {
+    transition(SAVING);
     
     const interview = {
       student: name,
       interviewer
     };
 
-    props.bookInterview(props.id, interview);
-    transition(SHOW);
+    props.bookInterview(props.id, interview).then(() => transition(SHOW));
   }
 
   return (
     <article className="appointment">
       <Header time={props.time}></Header>
+      {mode === SAVING && <Status message="Saving" />}
       {mode === EMPTY && <Empty onAdd={() => transition(CREATE)} />}
       {mode === SHOW && (
         <Show
