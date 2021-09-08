@@ -19,6 +19,23 @@ export default function useApplicationData() {
   //*********Functions that manipulate the data***************
   const setDay = day => setState({...state, day});
 
+  //Function to update the current spots on the Day list
+  function updateSpots(state, appointments) {
+    const dayObj = state.days.find(d => d.name === state.day);
+
+    let spots = 0;
+    for (const id of dayObj.appointments){
+      const appointment = appointments[id];
+      if(! appointment.interview){
+        spots++;
+      }
+    }
+
+    const newDay = {...dayObj,spots}
+    const newDays = state.days.map(d => d.name === state.day ? newDay :d)
+    return newDays;
+  }
+
   function bookInterview(id, interview) { 
 
     const appointment = {
@@ -32,9 +49,11 @@ export default function useApplicationData() {
     };
 
     //Add the state to the API so that data persists
-    return axios.put(`/api/appointments/${id}`, {interview}).then(response => {
-      setState({...state, appointments});
-    });
+    return axios.put(`/api/appointments/${id}`, {interview})
+      .then(() => {
+        const days = updateSpots(state, appointments);
+        setState({...state, appointments, days});
+      });
   }
 
   //Remove an appointment and delete it from the database
@@ -50,9 +69,11 @@ export default function useApplicationData() {
       [id]: appointment,
     };
 
-    return axios.delete(`/api/appointments/${id}`, {}).then(() => {
-      setState({...state, appointments});
-    });
+    return axios.delete(`/api/appointments/${id}`, {})
+      .then(() => {
+        const days = updateSpots(state, appointments);
+        setState({...state, appointments, days});
+      })
   }
 
   //Make API calls to display data from the database
