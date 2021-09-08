@@ -47,6 +47,26 @@ export default function Application(props) {
     });
   }
 
+  //Remove an appointment and delete it from the database
+  function cancelInterview(id) {
+
+    const appointment = {
+      ...state.appointments[id],
+      interview: null
+    };
+
+    const appointments = {
+      ...state.appointments,
+      [id]: appointment,
+    };
+
+    setState({...state, appointments});
+
+    return axios.delete(`/api/appointments/${id}`, {}).then(() => {
+      setState({...state, appointments});
+    });
+  }
+
   const appointments = dailyAppointments.map(appointment => {
     const interview = getInterview(state, appointment.interview);
 
@@ -55,6 +75,7 @@ export default function Application(props) {
         key={appointment.id}
         {...appointment}
         bookInterview={bookInterview}
+        cancelInterview={cancelInterview}
         interview={interview}
         interviewers={dailyInterviewers}
       />
