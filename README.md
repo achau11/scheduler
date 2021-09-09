@@ -23,3 +23,6 @@ npm run storybook
 ```
 
 ## Screenshots
+```sh
+Landing page
+!["Landing Page"](https://github.com/xazzer81/scheduler/blob/master/docs/Show.png?raw=true)
