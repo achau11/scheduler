@@ -16,6 +16,18 @@ npm start
 npm test
 ```
 
+## Link to API
+https://github.com/lighthouse-labs/scheduler-api
+
+## Dependencies
+   - "axios": "^0.21.4",
+   - "node-sass": "^6.0.1",
+   - "react": "^17.0.2",
+   - "react-dom": "^17.0.2",
+   - "react-router-dom": "^5.3.0",
+   - "react-scripts": "4.0.3",
+   - "web-vitals": "^1.1.2"
+
 ## Running Storybook Visual Testbed
 
 ```sh
