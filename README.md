@@ -16,8 +16,8 @@ npm start
 npm test
 ```
 
-## Link to API
-https://github.com/lighthouse-labs/scheduler-api
+## Server
+https://github.com/xazzer81/scheduler-api
 
 ## Dependencies
    - "axios": "^0.21.4",
