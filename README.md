@@ -1,8 +1,8 @@
 # Interview Scheduler
 
 ## Demo
-https://scheduler-abbcdedf.herokuapp.com/
-Takes a little time on the first load
+- https://scheduler-abbcdedf.herokuapp.com/
+- Takes a little time on the first load
 
 ## Setup
 
